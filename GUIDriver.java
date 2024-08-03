@@ -12,6 +12,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TabPane.TabClosingPolicy;
@@ -143,6 +144,42 @@ public class GUIDriver extends Application {
 		
 		cleanVBox.getChildren().addAll(cleanText, cleanUserHBox, cleanAddressHBox, cleanButton);
 		
+		/* BUTTONS CODE */
+		
+		// Add Button
+		
+		Text addResultText = new Text();
+		addButton.setOnAction(e -> {
+			try {
+				addResultText.setText("Location has been added");
+				addResultText.setFont(f1);
+				addVBox.getChildren().add(addResultText);
+				
+				// Code for "refreshing" the tab 
+				SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
+				selectionModel.clearSelection();	// Clears selected tabs
+				selectionModel.select(1);			// Selects addTab again
+
+			} catch (Exception error) {}
+		});
+		
+		// Clean Button
+		
+		Text cleanResultText = new Text();
+		cleanButton.setOnAction(e -> {
+			try {
+				cleanResultText.setText("Location has been cleaned");
+				cleanResultText.setFont(f1);
+				cleanVBox.getChildren().add(cleanResultText);
+				
+				// Code for "refreshing" the tab 
+				SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
+				selectionModel.clearSelection();	// Clears selected tabs
+				selectionModel.select(2);			// Selects cleanTab again
+
+			} catch (Exception error) {}
+		});
+
 		/* ADD ALL TO SCENE */
 		vbox.getChildren().add(tabPane);
 		Scene scene = new Scene(vbox, 600, 800);
