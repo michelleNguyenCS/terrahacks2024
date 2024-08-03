@@ -46,6 +46,7 @@ public class Place {
         for (String user: users) {
             if (users.getLast().equals(user)) {
                 u += user;
+                break;
             }
             u += (user + ", ");
         }
