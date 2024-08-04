@@ -1,17 +1,9 @@
+import java.util.ArrayList;
 
 /**
  * @author Kathryn Bondoc
  * @version 2024-08-03
  */
-
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-
 
 public class Location {
 
@@ -19,116 +11,62 @@ public class Location {
     private ArrayList<String> users;
     private int votes;
 
-    private HashMap<String, ArrayList<String>> locations = new HashMap<>(); // initial list of locations
-    private ArrayList<Place> locationList = new ArrayList<Place>(); // sorted list of locations
+    public Location(String address, ArrayList<String> users) {
+        this.address = address;
+        this.users = users;
+        this.votes = users.size();
+    }
 
-    // getters
-    public String getAddress() {
+    public String getAddress(){
         return address;
     }
 
-    public ArrayList<String> getUsers(String address) {
-        return locations.get(address);
+    public ArrayList<String> getUsers(){
+        return users;
     }
 
     public int getVotes() {
         return votes;
     }
 
-    // if it exists
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setUsers(ArrayList<String> users) {
+        this.users = users;
+    }
+
+    public void setVotes() {
+        this.votes = users.size();
+    }
+
     public boolean isUser(String user) {
-        return users.contains(user);
-    }
-
-    public boolean addressExists(String address) {
-        return locations.keySet().contains(address);
-    }
-
-    // to sort locations from most to least votes 
-    public void sortLocations(){
-        Collections.sort(locationList, new VoteComparator());
-    }
-
-    class VoteComparator implements Comparator<Place> {
-        public int compare(Place a, Place b) {
-            int n = a.getVotes() - b.getVotes();
-            if (n > 0) 
-                return -1;
-            
-            else if (n < 0)
-                return 1;
-      
-            return 0;
-        }
-    }
-
-    // adding location to list
-    public void addLocation(String address, String user) throws IOException {
-        
-        // initialize map 
-        if (locations.isEmpty()) {
-            users = new ArrayList<>();
-            users.add(user); // adding new location & user
-            locations.put(address, users);
-            locationList.add(new Place(address, users));
-            
-        }
-
-        // adding user to location
-        else if (addressExists(address)) {
-            users = getUsers(address);
-            if (!isUser(user)) {
-                locations.get(address).add(user);
-                users = getUsers(address);
-                Place place = new Place(address, users);
-
-                // iterate through locationList to update its users
-                for (Place p: locationList) {
-                    if (p.equals(place)) {
-                        p.setUsers(users);
-                        p.setVotes();
-                        break;
-                    }
-                }
+        for (String u: users) {
+            if (u.equalsIgnoreCase(user)){
+                return true;
             }
         }
-
-        else {
-            users = new ArrayList<>();
-            users.add(user);
-            locations.put(address, users);
-            locationList.add(new Place(address, users));
-        }
-
-        sortLocations();
-        writeToFile();
+        return false;
     }
 
-    public void listAllLocations() {
-        System.out.println();
-
-        // print each address
-        for (Place p: locationList) {
-            String u = p.printUsers();
-            System.out.print(p.getAddress() + "\t" + u + "\n");
-        }
+    public boolean onlyUser() {
+        return users.size() == 1;
     }
 
-    public void listLocationList() {
-        for (Place p: locationList) {
-            p.printInfo();
-        }
+    public String printInfo() {
+       return address + " " + users + " " + votes;
     }
 
-    public void writeToFile() throws IOException {
-        File f = new File("database.txt");
-        FileWriter fw = new FileWriter(f);
-        
-        for (Place p: locationList) {
-            String u = p.printUsers();
-            fw.append(p.getAddress() + "\t" + u + "\n");
+    public String printUsers() {
+        String u = "";
+        for (String user: users) {
+            if (users.getLast().equals(user)) {
+                u += user;
+                break;
+            }
+            u += (user + ", ");
         }
-        fw.close();
+        return u;
     }
-
 }

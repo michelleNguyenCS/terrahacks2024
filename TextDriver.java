@@ -10,10 +10,10 @@ public class TextDriver {
 
 	public static void main(String[] args) throws IOException {
 
-		Location location = new Location();
+		Method method = new Method();
 
 		Scanner scanner = new Scanner(System.in);
-		System.out.print("->");
+		System.out.print("-> ");
 
 		while (scanner.hasNextLine()) {
 			String action = scanner.nextLine();
@@ -30,27 +30,40 @@ public class TextDriver {
 				String address = "";
 				String user = "";
 
-				System.out.print("address:");
+				System.out.print("address: ");
 				if (scanner.hasNextLine()) {
 					address = scanner.nextLine();
 				}
-				System.out.print("user:");
+				System.out.print("user: ");
 				if (scanner.hasNextLine()) {
 					user = scanner.nextLine();
 				}
-				location.addLocation(address, user);
+				method.voteLocation(address, user);
 			}
 
 			else if (action.equalsIgnoreCase("LISTALLLOCATIONS")) {
-				location.listAllLocations();
+				method.listAllLocations();
 			}
 
-			else if (action.equalsIgnoreCase("LISTLOCATIONLIST")) {
-				location.listLocationList();
+			else if (action.equalsIgnoreCase("LISTLOCATIONS")) {
+				method.listLocations();
 			}
 
+			else if (action.equalsIgnoreCase("REMOVELOCATION")) {
+				String address = "";
+				String user = "";
 
-			System.out.print("\n->");
+				System.out.print("address: ");
+				if (scanner.hasNextLine()) {
+					address = scanner.nextLine();
+				}
+				System.out.print("user: ");
+				if (scanner.hasNextLine()) {
+					user = scanner.nextLine();
+				}
+				method.removeLocation(address, user);
+			}
+			System.out.print("\n-> ");
 
 		}
 
