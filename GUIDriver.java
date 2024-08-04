@@ -1,17 +1,21 @@
 /**
- * [CleanScape]
+ * [CleanScapes]
  * 
  * @author Michelle Nguyen
- * @version 2024-08-03
+ * @version 2024-08-04
  */
 
 
 /* IMPORT STATEMENTS */
+import java.util.ArrayList;
+
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollBar;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -30,7 +34,7 @@ public class GUIDriver extends Application {
 	public void start(Stage stage) throws Exception {
 		
 		/* FRAME */
-		VBox vbox = new VBox();			// Page Frame
+		VBox vbox = new VBox(25);		// Page Frame
 		vbox.setAlignment(Pos.CENTER);	// Center in the middle
 		
 		/* FONTS */
@@ -53,27 +57,32 @@ public class GUIDriver extends Application {
 		tabPane.getTabs().add(cleanTab);
 		
 		// Frames
-		VBox homeVBox = new VBox(new Label("[ List Polluted Addresses ]"));
-		VBox addVBox = new VBox();
-		VBox cleanVBox = new VBox();
+		VBox homeVBox = new VBox(10);
+		VBox addVBox = new VBox(10);
+		VBox cleanVBox = new VBox(10);
 		homeTab.setContent(homeVBox);
 		addTab.setContent(addVBox);
 		cleanTab.setContent(cleanVBox);
+		homeVBox.setAlignment(Pos.CENTER);
 		addVBox.setAlignment(Pos.CENTER);
 		cleanVBox.setAlignment(Pos.CENTER);
 		
 		/* F1 - HOME */
 		
-		// [Waiting on Kathryn's Code]
+		Text homeText = new Text("Places to be Cleaned");
+		homeText.setFont(f1);
+		
+		homeVBox.getChildren().addAll(homeText);
 		
 		/* F2 - ADD */
 		
 		Text addText = new Text("Add an Address");
 		addText.setFont(f1);
+		VBox.setMargin(addText, new Insets(10, 0, 0, 0));	// (Top, Right, Bottom, Left)
 		
 		// Input Box for Username
 		
-		HBox addUserHBox = new HBox();
+		HBox addUserHBox = new HBox(10);
 		addUserHBox.setAlignment(Pos.CENTER);
 		
 		Label addUserLabel = new Label("Enter Username:");
@@ -87,13 +96,14 @@ public class GUIDriver extends Application {
 		
 		// Input Box for Address
 		
-		HBox addAddressHBox = new HBox();
+		HBox addAddressHBox = new HBox(10);
 		addAddressHBox.setAlignment(Pos.CENTER);
 		
 		Label addAddressLabel = new Label("Enter Address:");
 		addAddressLabel.setFont(f1);
 		
 		TextField addAddressInput = new TextField();
+		addAddressInput.setPrefWidth(320);	// 320px so the ends align with username field
 		addAddressInput.setFont(f1);
 		addAddressInput.setPromptText("Search..");
 		
@@ -109,10 +119,11 @@ public class GUIDriver extends Application {
 		
 		Text cleanText = new Text("Submit a Cleaning");
 		cleanText.setFont(f1);
+		VBox.setMargin(cleanText, new Insets(10, 0, 0, 0));	// (Top, Right, Bottom, Left)
 
 		// Input Box for Username
 		
-		HBox cleanUserHBox = new HBox();
+		HBox cleanUserHBox = new HBox(10);
 		cleanUserHBox.setAlignment(Pos.CENTER);
 		
 		Label cleanUserLabel = new Label("Enter Username:");
@@ -126,13 +137,14 @@ public class GUIDriver extends Application {
 		
 		// Input Box for Address
 		
-		HBox cleanAddressHBox = new HBox();
+		HBox cleanAddressHBox = new HBox(10);
 		cleanAddressHBox.setAlignment(Pos.CENTER);
 		
 		Label cleanAddressLabel = new Label("Enter Address:");
 		cleanAddressLabel.setFont(f1);
 		
 		TextField cleanAddressInput = new TextField();
+		cleanAddressInput.setPrefWidth(320);	// 320px so the ends align with username field
 		cleanAddressInput.setFont(f1);
 		cleanAddressInput.setPromptText("Search..");
 		
@@ -151,16 +163,40 @@ public class GUIDriver extends Application {
 		Text addResultText = new Text();
 		addButton.setOnAction(e -> {
 			try {
-				addResultText.setText("Location has been added");
+				String username = addUserInput.getText();
+				String address = addAddressInput.getText();
+				
+				addResultText.setText(Method.voteLocation(address, username));
+				
+				// "Refreshes" the home tab
+				homeVBox.getChildren().clear();
+				homeVBox.getChildren().add(homeText);
+				
+				ArrayList<Location> locations = Method.loadData("database.txt");
+				Text locationText = new Text(Method.readData(locations));
+				locationText.setFont(f1);
+				
+				homeVBox.getChildren().add(locationText);
+				
+				//addResultText.setText("Location has been added");	// non-code
 				addResultText.setFont(f1);
 				addVBox.getChildren().add(addResultText);
-				
-				// Code for "refreshing" the tab 
+								
+				// Code for "refreshing" the tab
+				/*
+				 * There's a problem where after clicking a button, the content on the tab
+				 * doesn't refresh until you click out of the tab and back in
+				 * 
+				 * I had to code that the program will select out and in of the tab to
+				 * "refresh"
+				 */
 				SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
 				selectionModel.clearSelection();	// Clears selected tabs
 				selectionModel.select(1);			// Selects addTab again
-
-			} catch (Exception error) {}
+				
+			} catch (Exception error) {
+				System.out.println("something went wrong?");
+			}
 		});
 		
 		// Clean Button
@@ -168,7 +204,12 @@ public class GUIDriver extends Application {
 		Text cleanResultText = new Text();
 		cleanButton.setOnAction(e -> {
 			try {
-				cleanResultText.setText("Location has been cleaned");
+				String username = addUserInput.getText();
+				String address = addAddressInput.getText();
+				
+				cleanResultText.setText(Method.removeLocation(address, username));
+				
+				//cleanResultText.setText("Location has been cleaned"); //non-code
 				cleanResultText.setFont(f1);
 				cleanVBox.getChildren().add(cleanResultText);
 				

@@ -1,9 +1,11 @@
-
 /**
  * @author Kathryn Bondoc
- * @version 2024-08-03
+ * @author Michelle Nguyen
+ * @version 2024-08-04
  */
 
+
+/* IMPORT STATEMENTS */
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -15,11 +17,10 @@ import java.util.Scanner;
 
 public class Method {
     
-    private ArrayList<String> users;
-    private ArrayList<Location> map = new ArrayList<Location>(); // sorted list of places
-    private String returnMsg;
+    private static ArrayList<String> users;
+    private static ArrayList<Location> map = new ArrayList<Location>(); // sorted list of places
 
-    public Location getLocation(String address) {
+    public static Location getLocation(String address) {
         for (Location l: map) {
             if (l.getAddress().equalsIgnoreCase(address)) {
                 return l;
@@ -29,7 +30,7 @@ public class Method {
     }
 
     // if address already exists in database
-    public boolean addressExists(String address) {
+    public static boolean addressExists(String address) {
         for (Location p: map) {
             if (p.getAddress().equalsIgnoreCase(address)) {
                 return true;
@@ -39,10 +40,10 @@ public class Method {
     }
 
     // to sort locations from most to least votes 
-    public void sortLocations(){
+    public static void sortLocations(){
         Collections.sort(map, new VoteComparator());
     }
-    class VoteComparator implements Comparator<Location> {
+    static class VoteComparator implements Comparator<Location> {
         public int compare(Location a, Location b) {
             int n = a.getVotes() - b.getVotes();
             if (n > 0) 
@@ -56,7 +57,8 @@ public class Method {
     }
 
     // adding location to list
-    public String voteLocation(String address, String user) throws IOException {
+    public static String voteLocation(String address, String user) throws IOException {
+    	String returnMsg = "";
         // initialize map 
         if (map.isEmpty()) {
             users = new ArrayList<>();
@@ -99,8 +101,10 @@ public class Method {
     }
 
     // removing a location from list
-    public String removeLocation(String address, String user) throws IOException {
+    public static String removeLocation(String address, String user) throws IOException {
         
+    	String returnMsg = "";
+    	
         if (map.isEmpty() || !addressExists(address)) {
             returnMsg = "Address not found in database";
         }
@@ -128,6 +132,9 @@ public class Method {
 
     // lists the address and users of each place
     public String listAllLocations() {
+    	
+    	String returnMsg = "";
+    	
         // print each address
         for (Location p: map) {
             String u = p.printUsers();
@@ -138,6 +145,9 @@ public class Method {
 
     // lists the address, users, and votes of each place
     public String listLocations() {
+    	
+    	String returnMsg = "";
+    	
         for (Location p: map) {
             returnMsg += p.printInfo();
         }
@@ -145,7 +155,7 @@ public class Method {
     }
 
     // writes the address and its users to a file
-    public void writeToFile() throws IOException {
+    public static void writeToFile() throws IOException {
         File f = new File("database.txt");
         FileWriter fw = new FileWriter(f);
         
@@ -160,7 +170,7 @@ public class Method {
     {
         File data = new File(fileName);
         Scanner in = new Scanner(data);
-        in.nextLine();
+        //in.nextLine();
 
         ArrayList<Location> locations = new ArrayList<>();
 
@@ -188,12 +198,12 @@ public class Method {
     }
 
     // prints address and votes
-    public static String printData(ArrayList<Location> locs)
+    public static String readData(ArrayList<Location> locs)
     {
         String str = "";
         for (Location loc : locs)
         {
-            str += loc.getAddress() + " | " + loc.getVotes() + "\n";
+            str += loc.getAddress() + " | " + loc.getVotes() + " votes \n";
         }
         return str;
     }

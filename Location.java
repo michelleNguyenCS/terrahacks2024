@@ -1,9 +1,13 @@
-import java.util.ArrayList;
-
 /**
  * @author Kathryn Bondoc
- * @version 2024-08-03
+ * @author Michelle Nguyen
+ * @version 2024-08-04
  */
+
+
+/* IMPORT STATEMENTS */
+import java.util.ArrayList;
+
 
 public class Location {
 
@@ -17,6 +21,8 @@ public class Location {
         this.votes = users.size();
     }
 
+    /* GET METHODS */
+    
     public String getAddress(){
         return address;
     }
@@ -28,6 +34,8 @@ public class Location {
     public int getVotes() {
         return votes;
     }
+    
+    /* METHODS */
 
     public void setAddress(String address) {
         this.address = address;
@@ -68,5 +76,11 @@ public class Location {
             u += (user + ", ");
         }
         return u;
+    }
+    
+    /* OVERRIDE METHODS */
+    
+    public String toString() {
+    	return address + " | " + votes + " votes";
     }
 }
