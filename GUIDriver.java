@@ -7,6 +7,7 @@
 
 
 /* IMPORT STATEMENTS */
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -20,6 +21,8 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TabPane.TabClosingPolicy;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -41,6 +44,12 @@ public class GUIDriver extends Application {
 		Font f1 = new Font("Quicksand", 24);
 		
 		/* APP TITLE */
+		Image image = new Image(new FileInputStream("logo.png"));
+		ImageView imageView = new ImageView(image); 
+		imageView.setFitHeight(75);
+		imageView.setFitWidth(75);
+		vbox.getChildren().add(imageView);
+		
 		Text appTitle = new Text("CleanScapes");
 		appTitle.setFont(titleFont);
 		vbox.getChildren().add(appTitle);
@@ -239,6 +248,7 @@ public class GUIDriver extends Application {
 		
 		/* FINAL GUI SETUP */
 		stage.setScene(scene);			// Adds the scene to the stage
+		stage.getIcons().add(new Image("file:icon.png"));
 		stage.setTitle("CleanScapes");	// Title of Interface
 		stage.show();					// Required for Interface to Launch (1/2)
 	}
