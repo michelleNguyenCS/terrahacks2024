@@ -105,22 +105,29 @@ public class Method {
         
     	String returnMsg = "";
     	
+        Location l = getLocation(address);
+        //System.out.println("picked: " + address);
+        //System.out.println(l);
+        
         if (map.isEmpty() || !addressExists(address)) {
             returnMsg = "Address not found in database";
         }
 
-        Location l = getLocation(address);
-
+        /*
         if (l == null) {
-            returnMsg = "Address not found in database";
-        }
+			returnMsg = "Address not found in database";
+		}
+         */
 
         else if (l.isUser(user) && l.onlyUser()) {
             returnMsg = "Unable to remove address from database";
         }
 
         else {
+        	//System.out.println(l);
             int i = map.indexOf(l);
+            //System.out.println(map);
+            //System.out.println(i);
             map.remove(i);
             returnMsg = "Address successfully removed from database";
         }

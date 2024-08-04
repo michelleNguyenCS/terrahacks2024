@@ -8,14 +8,13 @@
 
 /* IMPORT STATEMENTS */
 import java.util.ArrayList;
-
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollBar;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -176,7 +175,8 @@ public class GUIDriver extends Application {
 				Text locationText = new Text(Method.readData(locations));
 				locationText.setFont(f1);
 				
-				homeVBox.getChildren().add(locationText);
+				ScrollPane scroll = new ScrollPane(locationText);
+				homeVBox.getChildren().addAll(locationText, scroll);
 				
 				//addResultText.setText("Location has been added");	// non-code
 				addResultText.setFont(f1);
@@ -195,7 +195,7 @@ public class GUIDriver extends Application {
 				selectionModel.select(1);			// Selects addTab again
 				
 			} catch (Exception error) {
-				System.out.println("something went wrong?");
+				//System.out.println("something went wrong?");
 			}
 		});
 		
@@ -209,7 +209,17 @@ public class GUIDriver extends Application {
 				
 				cleanResultText.setText(Method.removeLocation(address, username));
 				
-				//cleanResultText.setText("Location has been cleaned"); //non-code
+				// "Refreshes" the home tab
+				homeVBox.getChildren().clear();
+				homeVBox.getChildren().add(homeText);
+				
+				ArrayList<Location> locations = Method.loadData("database.txt");
+				Text locationText = new Text(Method.readData(locations));
+				locationText.setFont(f1);
+				
+				ScrollPane scroll = new ScrollPane(locationText);
+				homeVBox.getChildren().addAll(locationText, scroll);
+
 				cleanResultText.setFont(f1);
 				cleanVBox.getChildren().add(cleanResultText);
 				
@@ -222,7 +232,7 @@ public class GUIDriver extends Application {
 		});
 
 		/* ADD ALL TO SCENE */
-		vbox.getChildren().add(tabPane);
+		vbox.getChildren().add(tabPane);		
 		Scene scene = new Scene(vbox, 600, 800);
 		String css = this.getClass().getResource("style.css").toExternalForm();
 		scene.getStylesheets().add(css);
