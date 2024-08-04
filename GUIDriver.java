@@ -204,8 +204,8 @@ public class GUIDriver extends Application {
 		Text cleanResultText = new Text();
 		cleanButton.setOnAction(e -> {
 			try {
-				String username = addUserInput.getText();
-				String address = addAddressInput.getText();
+				String username = cleanUserInput.getText();
+				String address = cleanAddressInput.getText();
 				
 				cleanResultText.setText(Method.removeLocation(address, username));
 				
