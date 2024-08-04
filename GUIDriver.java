@@ -1,5 +1,6 @@
 /**
- * [CleanScapes]
+ * [CleanScapes] : 
+ * GUI 
  * 
  * @author Michelle Nguyen
  * @version 2024-08-04
@@ -43,16 +44,17 @@ public class GUIDriver extends Application {
 		Font titleFont = new Font("Quicksand", 56);
 		Font f1 = new Font("Quicksand", 24);
 		
-		/* APP TITLE */
+		/* APP LOGO */
 		Image image = new Image(new FileInputStream("logo.png"));
 		ImageView imageView = new ImageView(image); 
 		imageView.setFitHeight(75);
 		imageView.setFitWidth(75);
-		vbox.getChildren().add(imageView);
 		
+		/* APP TITLE */
 		Text appTitle = new Text("CleanScapes");
 		appTitle.setFont(titleFont);
-		vbox.getChildren().add(appTitle);
+		
+		vbox.getChildren().addAll(imageView, appTitle);
 		
 		/* TABS */
 		TabPane tabPane = new TabPane();
@@ -76,11 +78,11 @@ public class GUIDriver extends Application {
 		cleanVBox.setAlignment(Pos.CENTER);
 		
 		/* F1 - HOME */
-		
 		Text homeText = new Text("Places to be Cleaned");
 		homeText.setFont(f1);
-		
-		homeVBox.getChildren().addAll(homeText);
+		Text filler = new Text("[Nothing Yet]");	// Filler text for no entries
+		filler.setFont(f1);
+		homeVBox.getChildren().addAll(homeText, filler);
 		
 		/* F2 - ADD */
 		
@@ -176,7 +178,8 @@ public class GUIDriver extends Application {
 				
 				addResultText.setText(Method.voteLocation(address, username));
 				
-				// "Refreshes" the home tab
+				// "Refreshing" the Home Tab
+				
 				homeVBox.getChildren().clear();
 				homeVBox.getChildren().add(homeText);
 				
@@ -184,14 +187,15 @@ public class GUIDriver extends Application {
 				Text locationText = new Text(Method.readData(locations));
 				locationText.setFont(f1);
 				
-				ScrollPane scroll = new ScrollPane(locationText);
+				ScrollPane scroll = new ScrollPane(locationText);	// Scroll bar
 				homeVBox.getChildren().addAll(locationText, scroll);
 				
-				//addResultText.setText("Location has been added");	// non-code
+				// Action Message for Adding
+				
 				addResultText.setFont(f1);
 				addVBox.getChildren().add(addResultText);
 								
-				// Code for "refreshing" the tab
+				// Code for "refreshing" the Add Tab
 				/*
 				 * There's a problem where after clicking a button, the content on the tab
 				 * doesn't refresh until you click out of the tab and back in
@@ -203,9 +207,7 @@ public class GUIDriver extends Application {
 				selectionModel.clearSelection();	// Clears selected tabs
 				selectionModel.select(1);			// Selects addTab again
 				
-			} catch (Exception error) {
-				//System.out.println("something went wrong?");
-			}
+			} catch (Exception error) {}
 		});
 		
 		// Clean Button
@@ -218,7 +220,8 @@ public class GUIDriver extends Application {
 				
 				cleanResultText.setText(Method.removeLocation(address, username));
 				
-				// "Refreshes" the home tab
+				// "Refreshing" the Home Tab
+				
 				homeVBox.getChildren().clear();
 				homeVBox.getChildren().add(homeText);
 				
@@ -226,13 +229,16 @@ public class GUIDriver extends Application {
 				Text locationText = new Text(Method.readData(locations));
 				locationText.setFont(f1);
 				
-				ScrollPane scroll = new ScrollPane(locationText);
+				ScrollPane scroll = new ScrollPane(locationText);	// Scroll bar
 				homeVBox.getChildren().addAll(locationText, scroll);
 
+				// Action Message for Cleaning
+				
 				cleanResultText.setFont(f1);
 				cleanVBox.getChildren().add(cleanResultText);
 				
-				// Code for "refreshing" the tab 
+				// Code for "refreshing" the Clean Tab
+				
 				SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
 				selectionModel.clearSelection();	// Clears selected tabs
 				selectionModel.select(2);			// Selects cleanTab again
@@ -243,12 +249,12 @@ public class GUIDriver extends Application {
 		/* ADD ALL TO SCENE */
 		vbox.getChildren().add(tabPane);		
 		Scene scene = new Scene(vbox, 600, 800);
-		String css = this.getClass().getResource("style.css").toExternalForm();
+		String css = this.getClass().getResource("style.css").toExternalForm();	// CSS
 		scene.getStylesheets().add(css);
 		
 		/* FINAL GUI SETUP */
 		stage.setScene(scene);			// Adds the scene to the stage
-		stage.getIcons().add(new Image("file:icon.png"));
+		stage.getIcons().add(new Image("file:icon.png"));	// App Icon
 		stage.setTitle("CleanScapes");	// Title of Interface
 		stage.show();					// Required for Interface to Launch (1/2)
 	}

@@ -1,4 +1,7 @@
 /**
+ * [CleanScapes] : 
+ * Location Class
+ * 
  * @author Kathryn Bondoc
  * @author Michelle Nguyen
  * @version 2024-08-04
