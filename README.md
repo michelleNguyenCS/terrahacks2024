@@ -3,7 +3,7 @@ Date of Completion: 2024-08-04\
 Languages: Java, CSS\
 Team:
 - Michelle Nguyen - Java Developer, GUI Designer
-- Kathryn Bondoc - Java Developer, Writer, Pitcher
+- Kathryn Bondoc - Java Developer, Writer, Icon Designer
 - Angela Xiao - Researcher, Writer, Pitcher
 
 **Theme:** Environmental
