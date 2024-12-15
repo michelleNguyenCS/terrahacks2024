@@ -12,7 +12,7 @@ Team:
 - Allow the community to come together and determine the areas that need the most cleaning through a voting system.
 - Gain better statistics on locations that tend to collect the most litter.
 - Offer an opportunity for students to complete community service.
-- Offer employment for those unable to secure part-time jobs in the current market (terrible btw).
+- Offer employment for those unable to secure part-time jobs in the current market.
 - Target job insecurity and help clean our environment, all-in-one.
 
 **Features:**
